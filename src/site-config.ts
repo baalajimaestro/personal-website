@@ -1,13 +1,13 @@
 export const siteConfig = {
-  author: 'Kevin Wong',
-  title: 'Vitesse theme for Astro',
-  subtitle: 'Vitesse theme for Astro, supports Vue and UnoCSS.',
-  description: 'A Minimal, SEO-friendly portfolio and blog theme for Astro.',
+  author: 'baalajimaestro',
+  title: 'baalajimaestro',
+  subtitle: 'Personal Website & Blog for baalajimaestro',
+  description: 'DevOps Engineer and Networking Enthusiast.',
   image: {
     src: '/hero.jpg',
     alt: 'Website Main Image',
   },
-  email: 'kevinwong865@gmail.com',
+  email: 'baalajimaestro@ptr.moe',
   socialLinks: [
     {
       text: 'GitHub',
@@ -64,20 +64,16 @@ export const siteConfig = {
   footer: {
     navLinks: [
       {
-        text: 'Posts Props',
-        href: '/posts-props',
+        text: 'PTR Cloud',
+        href: 'https://ptr.moe',
       },
       {
-        text: 'Markdown Style',
-        href: '/md-style',
+        text: 'Online Presence',
+        href: 'https://links.baalajimaestro.ptr.moe',
       },
       {
-        text: 'View on Astro',
-        href: 'https://astro.build/themes/details/vitesse-theme-for-astro/',
-      },
-      {
-        text: 'GitHub Repository',
-        href: 'https://github.com/kevinwong865/astro-theme-vitesse',
+        text: 'Source Code',
+        href: 'https://git.ptr.moe/baalajimaestro/personal-website',
       },
     ],
   },

@@ -1,47 +1,44 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import { type CollectionPosts } from '@/types'
-import { getPosts } from '@/utils/posts'
+import { api } from '@/utils/ghost'
 
 export async function getStaticPaths() {
-  const posts = await getPosts()
-  return posts.map((post) => {
-    return {
-      params: { slug: post.slug },
-      props: {
-        post,
-      },
-    }
-  })
+  const posts = await api.posts
+    .browse({ 
+      limit: 'all',
+      fields: ['slug', 'title']
+    })
+    .catch(err => {
+      console.error('Error fetching posts:', err);
+      return [];
+    });
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { slug: post.slug },
+  }));
 }
 
-type Props = { post: CollectionPosts }
+const { slug } = Astro.props;
 
-const { post } = Astro.props
-const { title, image, description, date, duration, tag } = post.data
-
-const { Content } = await post.render()
-
-function getDate(date: string) {
-  return new Date(date).toISOString()
+let post;
+post = await api.posts.read({ slug }, { include: ['tags', 'authors'] });
+if (!post) {
+  return Astro.redirect('/404');
 }
 ---
-
-<BaseLayout title={title} description={description} pageType="article">
+<BaseLayout title={post.title} description={post.excerpt} pageType="article">
   <article class="prose">
-    <h1>{title}</h1>
+    <h1>{post.title}</h1>
     <p op-50>
-      {date && <time datetime={getDate(date)}>{date.split(',')}</time>}
-      {duration && <span>· {duration}</span>}
-      {tag && <span>· {tag}</span>}
+      {post.published_at && <time datetime={post.published_at}>{new Date(post.published_at).toLocaleDateString()}</time>}
+      {post.reading_time && <span>· {post.reading_time} min read</span>}
+      {post.primary_tag && <span>· {post.primary_tag.name}</span>}
     </p>
-    {
-      image && (
-        <p>
-          <img width="640" height="360" src={image.src} alt={image.alt || ''} />
-        </p>
-      )
-    }
-    <Content />
+    {post.feature_image && (
+      <img width="640" height="360" src={post.feature_image} alt={post.feature_image_alt || ''} />
+    )}
+    
+    <div set:html={post.html}></div>
   </article>
 </BaseLayout>

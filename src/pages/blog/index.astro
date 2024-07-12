@@ -2,23 +2,16 @@
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import ListPosts from '@/components/ListPosts.vue'
 import siteConfig from '@/site-config'
-import { getPosts } from '@/utils/posts'
-
-export async function getStaticPaths() {
-  const paths = siteConfig.page.blogLinks.map((nav) => {
-    const href = nav.href.replace('/blog', '')
-    return {
-      params: {
-        path: href === '' ? undefined : href.replace(/^\/+|\/+$/g, ''),
-      },
-    }
-  })
-  return paths
-}
+import { posts } from '@/utils/ghost'
 
 const { path } = Astro.params
 
-const posts = await getPosts(path)
+const ghostPosts = await posts
+  .browse({
+    limit: 'all',
+    include: ['tags', 'authors'],
+    filter: path ? `tag:${path}` : undefined
+  })
 
 function activeLink(pathname: string) {
   return Astro.url.pathname.replace(/\/+/g, '/').replace(/\/$/, '') === pathname
@@ -44,5 +37,5 @@ function activeLink(pathname: string) {
       ))
     }
   </div>
-  <ListPosts list={posts} />
+  <ListPosts list={ghostPosts} />
 </BaseLayout>

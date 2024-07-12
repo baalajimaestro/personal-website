@@ -2,10 +2,14 @@
 interface Post {
   id: string
   slug: string
-  body: string
-  data: Record<string, any>
-  collection: string
-  render: any
+  title: string
+  html: string
+  excerpt: string
+  feature_image: string
+  published_at: string
+  reading_time: number
+  tags: Array<{ name: string, slug: string }>
+  primary_author: { name: string, profile_image: string }
 }
 
 withDefaults(defineProps<{
@@ -19,15 +23,7 @@ function getDate(date: string) {
 }
 
 function getHref(post: Post) {
-  if (post.data.redirect)
-    return post.data.redirect
   return `/posts/${post.slug}`
-}
-
-function getTarget(post: Post) {
-  if (post.data.redirect)
-    return '_blank'
-  return '_self'
 }
 
 function isSameYear(a: Date | string | number, b: Date | string | number) {
@@ -46,30 +42,26 @@ function getYear(date: Date | string | number) {
         nothing here yet.
       </div>
     </template>
-    <li v-for="(post, index) in list " :key="post.data.title" mb-8>
-      <div v-if="!isSameYear(post.data.date, list[index - 1]?.data.date)" select-none relative h18 pointer-events-none>
+    <li v-for="(post, index) in list " :key="post.id" mb-8>
+      <div v-if="!isSameYear(post.published_at, list[index - 1]?.published_at)" select-none relative h18 pointer-events-none>
         <span text-7em color-transparent font-bold text-stroke-2 text-stroke-hex-aaa op14 absolute top--0.2em>
-          {{ getYear(post.data.date) }}
+          {{ getYear(post.published_at) }}
         </span>
       </div>
-      <a text-lg lh-tight nav-link flex="~ col gap-2" :aria-label="post.data.title" :target="getTarget(post)" :href="getHref(post)">
+      <a text-lg lh-tight nav-link flex="~ col gap-2" :aria-label="post.title" :href="getHref(post)">
         <div flex="~ col md:row gap-2 md:items-center">
           <div flex="~ gap-2 items-center text-wrap">
             <span lh-normal>
-              <i v-if="post.data.draft" text-base vertical-mid i-ri-draft-line />
-              {{ post.data.title }}
+              {{ post.title }}
             </span>
           </div>
           <div opacity-50 text-sm ws-nowrap flex="~ gap-2 items-center">
-            <i v-if="post.data.redirect" text-base i-ri-external-link-line />
-            <i v-if="post.data.recording || post.data.video" text-base i-ri:film-line />
-            <time v-if="post.data.date" :datetime="getDate(post.data.date)">{{ post.data.date.split(',')[0] }}</time>
-            <span v-if="post.data.duration">· {{ post.data.duration }}</span>
-            <span v-if="post.data.tag">· {{ post.data.tag }}</span>
-            <span v-if="post.data.lang && post.data.lang.includes('zh')">· 中文</span>
+            <time v-if="post.published_at" :datetime="getDate(post.published_at)">{{ new Date(post.published_at).toLocaleDateString() }}</time>
+            <span v-if="post.reading_time">· {{ post.reading_time }} min read</span>
+            <span v-if="post.tags && post.tags.length">· {{ post.tags[0].name }}</span>
           </div>
         </div>
-        <div opacity-50 text-sm>{{ post.data.description }}</div>
+        <div opacity-50 text-sm>{{ post.excerpt }}</div>
       </a>
     </li>
   </ul>

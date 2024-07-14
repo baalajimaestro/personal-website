@@ -4,6 +4,7 @@ export const siteConfig = {
   subtitle: 'DevOps Engineer and Networking Enthusiast.',
   description: 'Personal Website & Blog for baalajimaestro',
   email: 'baalajimaestro@ptr.moe',
+  siteUrl: 'https://baalajimaestro.ptr.moe',
   header: {
     logo: {
       src: '/images/favicon.png',

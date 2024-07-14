@@ -40,9 +40,9 @@
     "simple-git-hooks": "^2.11.1"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
+    "pre-commit": "pnpm lint-staged"
   },
   "lint-staged": {
-    "*": "npm run lint:fix"
+    "*": "pnpm lint:fix"
   }
 }

@@ -1,9 +1,8 @@
 {
-  "name": "astro-theme-vitesse",
+  "name": "personal-website",
   "type": "module",
   "version": "1.1.0",
   "scripts": {
-    "prepare": "simple-git-hooks",
     "dev": "astro dev --host",
     "build": "astro build",
     "preview": "astro preview",

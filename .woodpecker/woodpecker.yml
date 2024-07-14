@@ -2,6 +2,7 @@ when:
   - event: push
 
 steps:
+  - name: 
   - name: Deploy
     image: node:20-alpine
     commands:

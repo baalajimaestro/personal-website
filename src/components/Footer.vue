@@ -21,5 +21,8 @@ import { getLinkTarget } from '@/utils/link'
       <span op-70>&nbsp;&nbsp;&copy;&nbsp;&nbsp;{{ new Date().getFullYear() }}&nbsp;&nbsp;{{ siteConfig.author
       }}.</span>
     </div>
+    <div flex>
+      <span op-70>Powered by&nbsp;</span><a nav-link href="https://ghost.io">Ghost CMS</a><span op-70>&nbsp;&amp;&nbsp;</span><a nav-link href="https://astro.build">Astro</a>
+    </div>
   </footer>
 </template>

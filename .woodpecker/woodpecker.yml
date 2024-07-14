@@ -1,0 +1,12 @@
+when:
+  - event: push
+
+steps:
+  - name: Deploy
+    image: node:20-alpine
+    commands:
+      - npm install -g pnpm
+      - pnpm install --frozen-lockfile
+      - pnpm run build
+      - pnpx wrangler pages deploy dist
+    secrets: [ cf_api_token, content_api_url, content_api_key ]

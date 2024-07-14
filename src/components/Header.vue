@@ -4,6 +4,8 @@ import { computed, onMounted, ref, unref } from 'vue'
 import ThemeToggle from './ThemeToggle.vue'
 import siteConfig from '@/site-config'
 import { getLinkTarget } from '@/utils/link'
+import { getImage } from 'astro:assets'
+import faviconSrc from '../images/favicon.png'
 
 const navLinks = siteConfig.header.navLinks || []
 
@@ -25,6 +27,8 @@ const socialLinks = computed(() => {
 const { y: scroll } = useWindowScroll()
 
 const oldScroll = ref(unref(scroll))
+
+const faviconx = await getImage({ src: faviconSrc, format: 'png' })
 
 onMounted(() => {
   const navMask = document.querySelector('.nav-drawer-mask') as HTMLElement
@@ -81,7 +85,7 @@ function toggleNavDrawer() {
   >
     <div class="flex items-center h-full">
       <a href="/" mr-6 aria-label="Header Logo Image">
-        <img width="32" height="32" :src="siteConfig.header.logo.src" :alt="siteConfig.header.logo.alt">
+        <img width="32" height="32" :src="faviconx.src" :alt="siteConfig.header.logo.alt">
       </a>
       <nav class="sm:flex hidden flex-wrap gap-x-6 position-initial flex-row">
         <a
@@ -96,11 +100,6 @@ function toggleNavDrawer() {
       </div>
     </div>
     <div class="flex gap-x-6">
-      <a
-        v-for="link in socialLinks" :key="link.text" :aria-label="`${link.text}`" :class="link.icon" nav-link
-        :target="getLinkTarget(link.href)" :href="link.href"
-      />
-
       <a nav-link target="_blank" href="/rss.xml" i-ri-rss-line aria-label="RSS" />
       <ThemeToggle />
     </div>

@@ -1,8 +1,10 @@
 ---
 import siteConfig from '@/site-config'
+import { getImage } from 'astro:assets'
 import '@/styles/global.css'
 import '@/styles/prose.css'
 import '@/styles/dot.css'
+import faviconSrc from '../images/favicon.png'
 
 interface Props {
   title?: string
@@ -26,6 +28,14 @@ const resolvedImage = image?.src
     }
   : undefined
 
+const appleTouchIcon = await getImage({
+  src: faviconSrc,
+  width: 180,
+  height: 180,
+  format: 'png'
+})
+const faviconx = await getImage({ src: faviconSrc, format: 'png' })
+
 const canonicalURL = new URL(Astro.request.url, Astro.site)
 
 function formatCanonicalURL(url: string | URL) {
@@ -41,9 +51,14 @@ function formatCanonicalURL(url: string | URL) {
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>{title}</title>
 <meta name="generator" content={Astro.generator} />
+<meta name="darkreader-lock">
 
 <!-- Low Priority Global Metadata -->
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href={faviconx.src} type="image/png" />
+<link rel="apple-touch-icon" href={appleTouchIcon.src} />
+<link rel="manifest" href="/manifest.json" />
+
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS" />
 

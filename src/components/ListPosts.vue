@@ -61,7 +61,6 @@ function getYear(date: Date | string | number) {
             <span v-if="post.tags && post.tags.length">· {{ post.tags[0].name }}</span>
           </div>
         </div>
-        <div opacity-50 text-sm>{{ post.excerpt }}</div>
       </a>
     </li>
   </ul>

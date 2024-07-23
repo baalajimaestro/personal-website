@@ -23,7 +23,7 @@ function getDate(date: string) {
 }
 
 function getHref(post: Post) {
-  return `/posts/${post.slug}`
+  return `/posts/${post.slug}/`
 }
 
 function isSameYear(a: Date | string | number, b: Date | string | number) {

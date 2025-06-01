@@ -3,16 +3,21 @@ import siteConfig from "./site-config";
 
 export const onRequest = defineMiddleware((context, next) => {
   const { url, request } = context;
-  
-  if (import.meta.env.PROD) {
-    const configuredUrl = new URL(siteConfig.siteUrl);
-    
-    if (url.hostname !== configuredUrl.hostname) {
-      const newUrl = new URL(url.pathname + url.search, configuredUrl);
-      
-      return Response.redirect(newUrl.toString(), 301);
-    }
+
+  const response = next();
+
+  // Add cache control headers for static assets
+  const pathname = url.pathname;
+  const isStaticAsset = pathname.match(
+    /\.(css|js|woff|woff2|ttf|eot|png|jpg|jpeg|gif|svg|ico|webp|avif)$/i,
+  );
+
+  if (isStaticAsset) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=31536000, immutable",
+    );
   }
-  
-  return next();
+
+  return response;
 });

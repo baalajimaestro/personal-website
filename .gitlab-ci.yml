@@ -3,7 +3,8 @@ create-pages:
   pages:
     publish: dist
   before_script:
-    - corepack use pnpm@latest-10
+    - corepack enable
+    - corepack prepare pnpm@latest-10 --activate
     - pnpm install --frozen-lockfile
   script:
     - pnpm run build

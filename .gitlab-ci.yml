@@ -1,0 +1,9 @@
+image: node:22-alpine
+create-pages:
+  pages:
+    publish: dist
+  before_script:
+    - corepack use pnpm@latest-10
+    - pnpm install --frozen-lockfile
+  script:
+    - pnpm run build
